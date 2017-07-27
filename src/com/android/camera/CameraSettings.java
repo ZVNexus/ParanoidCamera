@@ -268,8 +268,6 @@ public class CameraSettings {
 
     public static final String KEY_REFOCUS_PROMPT = "refocus-prompt";
 
-    public static final String KEY_SHOW_MENU_HELP = "help_menu";
-
     public static final String KEY_REQUEST_PERMISSION  = "request_permission";
 
     public static final String KEY_SELFIE_FLASH = "pref_selfie_flash_key";
@@ -987,8 +985,7 @@ public class CameraSettings {
         ListPreference focusMode = group.findPreference(KEY_FOCUS_MODE);
         IconListPreference exposure =
                 (IconListPreference) group.findPreference(KEY_EXPOSURE);
-        IconListPreference cameraIdPref =
-                (IconListPreference) group.findPreference(KEY_CAMERA_ID);
+        ListPreference cameraIdPref = group.findPreference(KEY_CAMERA_ID);
         ListPreference videoFlashMode =
                 group.findPreference(KEY_VIDEOCAMERA_FLASH_MODE);
         ListPreference videoEffect = group.findPreference(KEY_VIDEO_EFFECT);
@@ -1170,14 +1167,13 @@ public class CameraSettings {
             labels[i - minValue] = explabel + " " + builder.toString();
             icons[i - minValue] = iconIds.getResourceId(3 + i, 0);
         }
-        exposure.setUseSingleIcon(true);
         exposure.setEntries(entries);
         exposure.setLabels(labels);
         exposure.setEntryValues(entryValues);
     }
 
     private void buildCameraId(
-            PreferenceGroup group, IconListPreference preference) {
+            PreferenceGroup group, ListPreference preference) {
         int numOfCameras = mCameraInfo.length;
         if (numOfCameras < 2) {
             removePreference(group, preference.getKey());
@@ -1190,7 +1186,7 @@ public class CameraSettings {
 
         CharSequence[] entryValues = new CharSequence[numOfCameras];
         for (int i = 0; i < numOfCameras; ++i) {
-            entryValues[i] = "" + i;
+            entryValues[i] = String.valueOf(i);
         }
         preference.setEntryValues(entryValues);
     }

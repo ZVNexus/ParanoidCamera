@@ -42,7 +42,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -206,27 +205,7 @@ class MyPagerAdapter extends PagerAdapter {
     }
 
     public Object instantiateItem(ViewGroup viewGroup, int i) {
-        mRootView = (ViewGroup) mActivity.getLayoutInflater().inflate(R.layout.scene_mode_grid, null);
-        GridView mGridView = (GridView) mRootView.findViewById(R.id.grid);
-        mGridView.setAdapter(new GridAdapter(mActivity, i));
         viewGroup.addView(mRootView);
-
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int page = mActivity.getCurrentPage();
-                int index = page * mActivity.getElmentPerPage() + position;
-                for (int i = 0; i < parent.getChildCount(); i++) {
-                    View v = parent.getChildAt(i);
-                    if (v != null) {
-                        v.setBackground(null);
-                    }
-                }
-                view.setBackgroundResource(R.drawable.scene_mode_view_border_selected);
-                SettingsManager.getInstance().setValueIndex(SettingsManager.KEY_SCENE_MODE, index);
-                mActivity.finish();
-            }
-        });
         return mRootView;
     }
 
@@ -244,64 +223,4 @@ class MyPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-}
-
-class GridAdapter extends BaseAdapter {
-    private SceneModeActivity mActivity;
-    private LayoutInflater mInflater;
-    private int mPage;
-
-    public GridAdapter(SceneModeActivity activity, int i) {
-        mActivity = activity;
-        mInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mPage = i;
-    }
-
-    @Override
-    public int getCount() {
-        int elem = mActivity.getElmentPerPage();
-        if (mPage == mActivity.getNumberOfPage() - 1) {
-            elem = mActivity.getNumberOfElement() - mPage * elem;
-        }
-        return elem;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        ViewHolder viewHolder;
-
-        if (view == null) {
-            viewHolder = new ViewHolder();
-            view = mInflater.inflate(R.layout.scene_mode_menu_view, parent, false);
-            viewHolder.imageView = (ImageView) view.findViewById(R.id.image);
-            viewHolder.textTitle = (TextView) view.findViewById(R.id.label);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        int idx = position + mPage * mActivity.getElmentPerPage();
-        viewHolder.imageView.setImageResource(mActivity.getThumbnails()[idx]);
-        viewHolder.textTitle.setText(mActivity.getEntries()[position + mPage * mActivity.getElmentPerPage()]);
-        if (idx == mActivity.getCurrentScene()) {
-            view.setBackgroundResource(R.drawable.scene_mode_view_border_selected);
-        }
-
-        return view;
-    }
-
-    private class ViewHolder {
-        public ImageView imageView;
-        public TextView textTitle;
-    }
 }

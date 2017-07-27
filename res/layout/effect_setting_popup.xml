@@ -47,8 +47,6 @@
                 <View android:id="@+id/effect_silly_faces_title_separator"
                         android:visibility="gone"
                         style="@style/EffectTypeSeparator"/>
-                <com.android.camera.ui.ExpandedGridView android:id="@+id/effect_silly_faces"
-                        style="@style/EffectSettingGrid"/>
                 <View android:id="@+id/effect_background_separator"
                         android:visibility="gone"
                         style="@style/EffectTitleSeparator"/>
@@ -59,10 +57,6 @@
                 <View android:id="@+id/effect_background_title_separator"
                         android:visibility="gone"
                         style="@style/EffectTypeSeparator"/>
-                <com.android.camera.ui.ExpandedGridView android:id="@+id/effect_background"
-                        android:visibility="gone"
-                        style="@style/EffectSettingGrid"/>
-            </LinearLayout>
-        </ScrollView>
+            </LinearLayout> </ScrollView>
     </LinearLayout>
 </com.android.camera.ui.EffectSettingPopup>
